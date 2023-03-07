@@ -8,7 +8,7 @@ import ru.geekbrains.spring.entities.Product;
 import java.util.*;
 
 @Repository
-public class ProductRepository {
+public class InMemProductRepository implements ProductDao {
     private List<Product> products;
 
     @PostConstruct
@@ -43,5 +43,10 @@ public class ProductRepository {
                 return;
             }
         }
+    }
+
+    @Override
+    public void changePrice(Long productId, int delta) {
+        throw new UnsupportedOperationException();
     }
 }
