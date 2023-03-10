@@ -28,8 +28,14 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> findAll() {
-        return productService.findAll();
+    public List<Product> findAll(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "100") Integer max) {
+        return productService.findAll(min, max);
+    }
+
+    @GetMapping("/products/product_add")
+    public void addProduct(@RequestParam String title, @RequestParam Integer price) {
+        Product product = new Product(null, title, price);
+        productService.save(product);
     }
 
 
@@ -44,7 +50,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/change_price")
-    public void changePrice(@RequestParam Long productId, @RequestParam Integer delta){
+    public void changePrice(@RequestParam Long productId, @RequestParam Integer delta) {
         productService.changePrice(productId, delta);
     }
 }
