@@ -39,8 +39,8 @@ public class ProductController {
          productService.deleteProductById(id);
     }
 
-    @GetMapping("/products/change_price")
-    public void changePrice(@RequestParam Long productId, @RequestParam Integer delta){
-        productService.changePrice(productId, delta);
-    }
+//    @GetMapping("/products/change_price")
+//    public void changePrice(@RequestParam Long productId, @RequestParam Integer delta){
+//        productService.changePrice(productId, delta);
+//    }
 }

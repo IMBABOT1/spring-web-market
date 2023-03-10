@@ -1,14 +1,17 @@
 package ru.geekbrains.spring.entities;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+
+import static jakarta.persistence.GenerationType.*;
 
 @Entity
 @Table(name = "products")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Long id;
 

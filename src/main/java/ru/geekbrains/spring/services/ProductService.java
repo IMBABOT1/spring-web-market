@@ -3,36 +3,34 @@ package ru.geekbrains.spring.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.spring.entities.Product;
-import ru.geekbrains.spring.repositories.HibernateProductRepository;
-import ru.geekbrains.spring.repositories.InMemProductRepository;
-import ru.geekbrains.spring.repositories.ProductDao;
+import ru.geekbrains.spring.repositories.ProductRepository;
 
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    private ProductDao productDao;
+    private ProductRepository productRepository;
 
     @Autowired
-    public void setProductRepository(HibernateProductRepository hibernateProductRepository) {
-        this.productDao = hibernateProductRepository;
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public List<Product> findAll(){
-        return productDao.findAll();
+        return productRepository.findAll();
     }
 
     public Product findProductById(Long id){
-        return productDao.findProductById(id);
+        return productRepository.findById(id).get();
     }
 
     public void deleteProductById(Long id) {
-        productDao.deleteProductById(id);
+        productRepository.deleteById(id);
     }
 
-    public void changePrice(Long productId, Integer delta) {
-        productDao.changePrice(productId, delta);
-    }
+//    public void changePrice(Long productId, Integer delta) {
+//        productDao.changePrice(productId, delta);
+//    }
 }
 
