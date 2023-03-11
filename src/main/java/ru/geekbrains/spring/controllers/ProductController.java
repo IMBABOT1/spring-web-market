@@ -50,9 +50,10 @@ public class ProductController {
                 position = 10;
                 break;
             } else if (page == 2) {
+                int index = page;
                 page = page - 1;
                 page *= 10;
-                position = 20;
+                position = 10 * index;
                 break;
             } else if (page == 3) {
                 page = page - 1;
