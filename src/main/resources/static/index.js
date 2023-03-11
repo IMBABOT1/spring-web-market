@@ -28,5 +28,22 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         });
     }
 
+
+
+    $scope.filter = function () {
+        console.log($scope.filter);
+        $http({
+            url: contextPath + '/products/filter',
+            method: 'get',
+            params: {
+                min: $scope.filter.min,
+                max: $scope.filter.max,
+            }
+        }).then(function (response) {
+            $scope.ProductsList = response.data;
+        });
+    }
+
+
     $scope.loadProducts();
 });

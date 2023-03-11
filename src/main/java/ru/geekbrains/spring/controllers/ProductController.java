@@ -14,6 +14,7 @@ import ru.geekbrains.spring.exceptions.AppError;
 import ru.geekbrains.spring.exceptions.ResourceNotFoundException;
 import ru.geekbrains.spring.services.ProductService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,11 @@ public class ProductController {
 
     @GetMapping("/products")
     public List<Product> findAll(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "100") Integer max) {
+        return productService.findAll(min, max);
+    }
+
+    @GetMapping("/products/filter")
+    public List<Product> filter(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "100") Integer max) {
         return productService.findAll(min, max);
     }
 

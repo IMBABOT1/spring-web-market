@@ -33,18 +33,20 @@
                 <button class="btn btn-primary" ng-click="changePrice(p.id, 5)">+</button>
             </td>
             <td>
-                <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Исключить</button>
+                <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Delete</button>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <form method="get" action="http://localhost:8189/app/products/product_add">
-        <span>title</span>
-        <input name="title" type="text">
-        <span>price</span>
-        <input name="price" type="number">
-        <button type="submit">add</button>
+    <p></p>
+    <h3>Filter</h3>
+    <form novalidate ng-submit="filter()">
+        <input class="form-control" type="number" placeholder="min" ng-model="filter.min">
+        <p></p>
+        <input class="form-control" type="number" placeholder="max" ng-model="filter.max">
+        <p></p>
+        <button type="submit" class="btn btn-primary">Filter</button>
     </form>
 
 </div>
