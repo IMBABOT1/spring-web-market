@@ -36,22 +36,24 @@ public class ProductController {
         List<Product> result = new ArrayList<>();
         int position = 0;
 
-        while ((page == 0) || (page == null) || (page == 1) || ((page > 1))) {
-            if (page == null) {
-                page = 0;
-                position = products.size();
-                break;
-            } else if (page == 0) {
-                page = 0;
-                position = products.size();
-                break;
-            } else if (page > 0) {
-                int index = page;
-                page = page - 1;
-                page *= 10;
-                position = 10 * index;
-                break;
-            }
+        int pageCount = (products.size() / 10) + 1;
+        System.out.println(pageCount);
+
+        if (page == null) {
+            page = 0;
+            position = products.size();
+        } else if (page == 0) {
+            page = 0;
+            position = products.size();
+        } else if (page > 0 && page < pageCount) {
+            int index = page;
+            page = page - 1;
+            page *= 10;
+            position = 10 * index;
+        }else if (page == pageCount){
+            page = page - 1;
+            page *= 10;
+            position = products.size();
         }
 
         for (int i = page; i < position; i++) {
