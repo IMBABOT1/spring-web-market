@@ -32,38 +32,8 @@ public class ProductController {
     public List<Product> findAll(@RequestParam(defaultValue = "0") Integer min,
                                  @RequestParam(defaultValue = "2147483647") Integer max,
                                  @RequestParam(defaultValue = "0") Integer page) {
-        List<Product> products = productService.findAll(min, max);
-        List<Product> result = new ArrayList<>();
-        int position = 0;
+     return    productService.findAll(min, max, page);
 
-        int pageCount = (products.size() / 10) + 1;
-
-        if (page == null) {
-            page = 0;
-            position = products.size();
-        } else if (page == 0) {
-            page = 0;
-            position = products.size();
-        } else if (page > 0 && page < pageCount) {
-            int index = page;
-            page = page - 1;
-            page *= 10;
-            position = 10 * index;
-        } else if (page == pageCount) {
-            page = page - 1;
-            page *= 10;
-            position = products.size();
-        } else if (page > pageCount){
-            page = pageCount;
-            page = page - 1;
-            page *= 10;
-            position = products.size();
-        }
-
-        for (int i = page; i < position; i++) {
-            result.add(products.get(i));
-        }
-        return result;
     }
 
     @GetMapping("/products/product_add")

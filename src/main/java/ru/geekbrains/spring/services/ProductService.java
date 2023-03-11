@@ -7,6 +7,7 @@ import ru.geekbrains.spring.entities.Product;
 import ru.geekbrains.spring.exceptions.ResourceNotFoundException;
 import ru.geekbrains.spring.repositories.ProductRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,38 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> findAll(Integer min, Integer max){
-        return productRepository.findAllByPriceBetween(min, max);
+    public List<Product> findAll(Integer min, Integer max, Integer page){
+        List<Product> products = productRepository.findAllByPriceBetween(min, max);
+        List<Product> result = new ArrayList<>();
+        int position = 0;
+
+        int pageCount = (products.size() / 10) + 1;
+
+        if (page == null) {
+            page = 0;
+            position = products.size();
+        } else if (page == 0) {
+            page = 0;
+            position = products.size();
+        } else if (page > 0 && page < pageCount) {
+            int index = page;
+            page = page - 1;
+            page *= 10;
+            position = 10 * index;
+        } else if (page == pageCount) {
+            page = page - 1;
+            page *= 10;
+            position = products.size();
+        } else if (page > pageCount){
+            page = pageCount;
+            page = page - 1;
+            page *= 10;
+            position = products.size();
+        }
+        for (int i = page; i < position; i++) {
+            result.add(products.get(i));
+        }
+        return result;
     }
 
     public Optional<Product> findProductById(Long id){

@@ -26,7 +26,6 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
 
 
     $scope.filter = function () {
-        console.log($scope.filter);
         $http({
             url: contextPath + '/products',
             method: 'get',
