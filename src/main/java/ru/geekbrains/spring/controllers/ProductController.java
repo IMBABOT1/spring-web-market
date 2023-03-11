@@ -45,11 +45,7 @@ public class ProductController {
                 page = 0;
                 position = products.size();
                 break;
-            } else if (page == 1) {
-                page = 0;
-                position = 10;
-                break;
-            } else if (page > 1) {
+            } else if (page > 0) {
                 int index = page;
                 page = page - 1;
                 page *= 10;
