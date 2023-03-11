@@ -49,16 +49,11 @@ public class ProductController {
                 page = 0;
                 position = 10;
                 break;
-            } else if (page == 2) {
+            } else if (page > 1) {
                 int index = page;
                 page = page - 1;
                 page *= 10;
                 position = 10 * index;
-                break;
-            } else if (page == 3) {
-                page = page - 1;
-                page *= 10;
-                position = products.size();
                 break;
             }
         }
