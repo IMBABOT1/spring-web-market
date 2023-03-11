@@ -29,13 +29,43 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> findAll(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "100") Integer max) {
-        return productService.findAll(min, max);
-    }
+    public List<Product> findAll(@RequestParam(defaultValue = "0") Integer min,
+                                 @RequestParam(defaultValue = "2147483647") Integer max,
+                                 @RequestParam(defaultValue = "0") Integer page) {
+        List<Product> products = productService.findAll(min, max);
+        List<Product> result = new ArrayList<>();
+        int position = 0;
 
-    @GetMapping("/products/filter")
-    public List<Product> filter(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "100") Integer max) {
-        return productService.findAll(min, max);
+        while ((page == 0) || (page == null) || (page == 1) || ((page > 1))) {
+            if (page == null) {
+                page = 0;
+                position = products.size();
+                break;
+            } else if (page == 0) {
+                page = 0;
+                position = products.size();
+                break;
+            } else if (page == 1) {
+                page = 0;
+                position = 10;
+                break;
+            } else if (page == 2) {
+                page = page - 1;
+                page *= 10;
+                position = 20;
+                break;
+            } else if (page == 3) {
+                page = page - 1;
+                page *= 10;
+                position = products.size();
+                break;
+            }
+        }
+
+        for (int i = page; i < position; i++) {
+            result.add(products.get(i));
+        }
+        return result;
     }
 
     @GetMapping("/products/product_add")

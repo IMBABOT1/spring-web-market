@@ -1,17 +1,12 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/app';
 
-    $scope.loadProducts = function () {
-        $http.get(contextPath + '/products')
-            .then(function (response) {
-                $scope.ProductsList = response.data;
-            });
-    };
+
 
     $scope.deleteProduct = function (productId) {
         $http.get(contextPath + '/products/delete/' + productId)
             .then(function (response) {
-                $scope.loadProducts();
+                $scope.filter();
             });
     }
 
@@ -24,7 +19,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 delta: delta
             }
         }).then(function (response) {
-            $scope.loadProducts();
+            $scope.filter();
         });
     }
 
@@ -33,11 +28,12 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     $scope.filter = function () {
         console.log($scope.filter);
         $http({
-            url: contextPath + '/products/filter',
+            url: contextPath + '/products',
             method: 'get',
             params: {
                 min: $scope.filter.min,
                 max: $scope.filter.max,
+                page: $scope.filter.page
             }
         }).then(function (response) {
             $scope.ProductsList = response.data;
@@ -45,5 +41,5 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     }
 
 
-    $scope.loadProducts();
+    $scope.filter();
 });

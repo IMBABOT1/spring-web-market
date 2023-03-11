@@ -21,4 +21,7 @@ values
     ('WoW: DragonFlight', 100),
     ('Diablo', 30),
     ('Diablo2', 40),
+    ('Diablo3', 100),
+    ('Diablo', 30),
+    ('Diablo2', 40),
     ('Diablo3', 100);
