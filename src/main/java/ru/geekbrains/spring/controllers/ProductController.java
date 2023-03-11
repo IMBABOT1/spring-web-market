@@ -37,7 +37,6 @@ public class ProductController {
         int position = 0;
 
         int pageCount = (products.size() / 10) + 1;
-        System.out.println(pageCount);
 
         if (page == null) {
             page = 0;
@@ -50,7 +49,12 @@ public class ProductController {
             page = page - 1;
             page *= 10;
             position = 10 * index;
-        }else if (page == pageCount){
+        } else if (page == pageCount) {
+            page = page - 1;
+            page *= 10;
+            position = products.size();
+        } else if (page > pageCount){
+            page = pageCount;
             page = page - 1;
             page *= 10;
             position = products.size();
