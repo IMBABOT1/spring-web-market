@@ -1,5 +1,5 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8189/app';
+    const contextPath = 'http://localhost:8189/app/api/v1';
 
 
 
@@ -9,20 +9,6 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 $scope.loadProducts();
             });
     }
-
-    $scope.changePrice = function (productId, delta) {
-        $http({
-            url: contextPath + '/products/change_price',
-            method: 'PUT',
-            params: {
-                productId: productId,
-                delta: delta
-            }
-        }).then(function (response) {
-            $scope.loadProducts();
-        });
-    }
-
 
 
     $scope.loadProducts = function () {
