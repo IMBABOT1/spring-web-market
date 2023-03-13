@@ -1,17 +1,7 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/app/api/v1';
 
-
-
-    $scope.deleteProduct = function (productId) {
-        $http.delete(contextPath + '/products/' + productId)
-            .then(function (response) {
-                $scope.loadProducts();
-            });
-    }
-
-
-    $scope.loadProducts = function () {
+    $scope.loadProducts = function (pageIndex = 1) {
         $http({
             url: contextPath + '/products',
             method: 'GET',
@@ -21,10 +11,9 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 max_price: $scope.filter ? $scope.filter.max_price : null
             }
         }).then(function (response) {
-            $scope.ProductsList = response.data.content;
+            $scope.ProductsPage = response.data;
         });
     };
-
 
     $scope.loadProducts();
 });
