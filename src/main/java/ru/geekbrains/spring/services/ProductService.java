@@ -1,11 +1,15 @@
 package ru.geekbrains.spring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.spring.entities.Product;
 import ru.geekbrains.spring.exceptions.ResourceNotFoundException;
 import ru.geekbrains.spring.repositories.ProductRepository;
+import ru.geekbrains.spring.repositories.specifications.ProductSpecifications;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,22 @@ public class ProductService {
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
+    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, Integer page) {
+        Specification<Product> spec = Specification.where(null);
+        if (minPrice != null) {
+            spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(minPrice));
+        }
+        if (maxPrice != null) {
+            spec = spec.and(ProductSpecifications.priceLessThanOrEqualsThan(maxPrice));
+        }
+        if (titlePart != null) {
+            spec = spec.and(ProductSpecifications.titleLike(titlePart));
+        }
+
+        return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
+    }
+
 
     public List<Product> findAll(Integer min, Integer max, Integer page){
         List<Product> products = productRepository.findAllByPriceBetween(min, max);

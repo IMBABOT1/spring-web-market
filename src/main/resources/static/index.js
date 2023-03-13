@@ -4,41 +4,41 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
 
 
     $scope.deleteProduct = function (productId) {
-        $http.get(contextPath + '/products/delete/' + productId)
+        $http.delete(contextPath + '/products/' + productId)
             .then(function (response) {
-                $scope.filter();
+                $scope.loadProducts();
             });
     }
 
     $scope.changePrice = function (productId, delta) {
         $http({
             url: contextPath + '/products/change_price',
-            method: 'GET',
+            method: 'PUT',
             params: {
                 productId: productId,
                 delta: delta
             }
         }).then(function (response) {
-            $scope.filter();
+            $scope.loadProducts();
         });
     }
 
 
 
-    $scope.filter = function () {
+    $scope.loadProducts = function () {
         $http({
             url: contextPath + '/products',
-            method: 'get',
+            method: 'GET',
             params: {
-                min: $scope.filter.min,
-                max: $scope.filter.max,
-                page: $scope.filter.page
+                title_part: $scope.filter ? $scope.filter.title_part : null,
+                min_price: $scope.filter ? $scope.filter.min_price : null,
+                max_price: $scope.filter ? $scope.filter.max_price : null
             }
         }).then(function (response) {
-            $scope.ProductsList = response.data;
+            $scope.ProductsList = response.data.content;
         });
-    }
+    };
 
 
-    $scope.filter();
+    $scope.loadProducts();
 });

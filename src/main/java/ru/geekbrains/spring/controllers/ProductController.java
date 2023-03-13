@@ -2,13 +2,11 @@ package ru.geekbrains.spring.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.spring.entities.Product;
 import ru.geekbrains.spring.exceptions.AppError;
 import ru.geekbrains.spring.exceptions.ResourceNotFoundException;
@@ -28,32 +26,37 @@ public class ProductController {
         this.productService = productService;
     }
 
+
     @GetMapping("/products")
-    public List<Product> findAll(@RequestParam(defaultValue = "0") Integer min,
-                                 @RequestParam(defaultValue = "2147483647") Integer max,
-                                 @RequestParam(defaultValue = "0") Integer page) {
-        return productService.findAll(min, max, page);
-
+    public Page<Product> getAllProducts(
+            @RequestParam(name = "p", defaultValue = "1") Integer page,
+            @RequestParam(name = "min_price", required = false) Integer minPrice,
+            @RequestParam(name = "max_price", required = false) Integer maxPrice,
+            @RequestParam(name = "title_part", required = false) String titlePart
+    ) {
+        if (page < 1) {
+            page = 1;
+        }
+        return productService.find(minPrice, maxPrice, titlePart, page);
     }
-
-    @GetMapping("/products/product_add")
-    public void addProduct(@RequestParam String title, @RequestParam Integer price) {
-        Product product = new Product(null, title, price);
-        productService.save(product);
-    }
-
 
     @GetMapping("/products/{id}")
     public Product findProductById(@PathVariable Long id) {
         return productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id not found id: " + id));
     }
 
-    @GetMapping("/products/delete/{id}")
+    @PostMapping("/products/product_add")
+    public void addProduct(@RequestBody Product product) {
+        product.setId(null);
+        productService.save(product);
+    }
+
+    @DeleteMapping("/products/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);
     }
 
-    @GetMapping("/products/change_price")
+    @PutMapping("/products/change_price")
     public void changePrice(@RequestParam Long productId, @RequestParam Integer delta) {
         productService.changePrice(productId, delta);
     }
