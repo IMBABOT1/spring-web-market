@@ -32,7 +32,7 @@ public class ProductController {
     public List<Product> findAll(@RequestParam(defaultValue = "0") Integer min,
                                  @RequestParam(defaultValue = "2147483647") Integer max,
                                  @RequestParam(defaultValue = "0") Integer page) {
-     return    productService.findAll(min, max, page);
+        return productService.findAll(min, max, page);
 
     }
 
